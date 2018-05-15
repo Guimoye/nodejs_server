@@ -1,0 +1,643 @@
+//agregar los DELETE en las tablas para solo hacer que no se vean
+
+/********************************** MODULO *************************************/
+**verificar si existe modulo
+SELECT 
+mo_id_modulo, mo_nombre_modulo, mo_orden, mo_tipo_dato, 
+mo_proceso, mo_read_write, mo_borrar 
+FROM modulo 
+where mo_borrar = '0' 
+and (mo_id_modulo = '-1' or mo_nombre_modulo = 'Apagador') order by mo_orden desc;
+
+** todos los modulos
+SELECT mo_id_modulo, mo_nombre_modulo, mo_orden, mo_tipo_dato, mo_proceso, mo_read_write, mo_borrar
+	FROM modulo where mo_borrar = '0' order by mo_orden asc;
+
+** insertar modulo
+INSERT INTO modulo(
+	mo_nombre_modulo, mo_orden, mo_tipo_dato, mo_proceso, mo_read_write, mo_borrar)
+	VALUES ('Corriente', 3, 'nose', 'salida', 'escritura', 0);
+
+**eliminar modulo
+UPDATE modulo
+	SET mo_borrar = '1'
+	WHERE mo_id_modulo = '6';
+
+**modificar modulo
+UPDATE modulo
+SET mo_nombre_modulo='guimoye', mo_orden=9, mo_tipo_dato='tipo1', mo_proceso='proceso', mo_read_write='escribir'
+WHERE mo_id_modulo= '2';
+
+**Busqueda like
+SELECT mo_id_modulo, mo_nombre_modulo, mo_orden, mo_tipo_dato, mo_proceso, mo_read_write,mo_borrar
+	FROM modulo where mo_borrar ='0' and mo_nombre_modulo LIKE 'A%' limit 5
+
+**validar modulo
+SELECT mo_id_modulo, mo_nombre_modulo, mo_orden, mo_tipo_dato, mo_proceso, mo_read_write, mo_borrar
+	FROM modulo where mo_nombre_modulo = 'Apagador' and mo_borrar= '0'
+
+**cantidad de modulo
+
+
+/********************************** DATA_CENTER *************************************/
+**verificar si existe data_center
+SELECT data_id, data_orden, data_name, data_borrar 
+FROM datacenter 
+where (data_id = '-1' or data_name = 'data2')
+and data_borrar = '0'
+
+**todos los data_center
+SELECT data_id, data_orden, data_name, data_borrar 
+FROM datacenter 
+where data_borrar = '0' order by data_orden desc;
+
+**insertar data_center
+INSERT INTO datacenter(data_orden, data_name, data_borrar)
+	VALUES (3, 'data3', 0);
+
+**eliminar data_center
+UPDATE datacenter
+	SET data_borrar = '1'
+	WHERE data_id = '4';
+
+**modificar data_center
+UPDATE datacenter
+	SET data_orden = 3, data_name = 'ajaaa'
+	WHERE data_id='2';
+
+**Busqueda like
+SELECT data_id, data_orden, data_name, data_borrar
+	FROM datacenter where data_borrar = '0' and data_name LIKE 'da%' limit 5
+
+**validar data center
+SELECT data_id, data_orden, data_name,data_borrar
+	FROM datacenter where data_name= 'data3' and data_borrar = '0'
+
+**cantidad de data center
+
+
+
+/********************************** PLAN_SERVIDOR*************************************/
+
+**verificar si existe 
+SELECT plan_id, plan_name, plan_orden, plan_borrar
+	FROM plan_servidor where (plan_id = '5' or plan_name = 'plan3') and plan_borrar= '0'
+
+**todos 
+SELECT plan_id, plan_name, plan_orden, plan_borrar
+	FROM plan_servidor where plan_borrar = '0' 
+	ORDER BY plan_orden desc;
+
+**insertar 
+INSERT INTO plan_servidor(
+	plan_name, plan_orden, plan_borrar)
+	VALUES ('plan4', 4, 0);
+
+**eliminar 
+UPDATE plan_servidor
+	SET plan_borrar = '1'
+	WHERE plan_id = '5';
+
+**modificar 
+UPDATE plan_servidor
+	SET plan_name= 'sssss', plan_orden=8
+	WHERE plan_id = 1;
+
+**Busqueda like
+SELECT plan_id, plan_name, plan_orden, plan_borrar
+	FROM plan_servidor where plan_borrar = '0' and plan_name LIKE 'pl%' limit 5
+
+**validar plan servidor
+SELECT plan_id, plan_name, plan_orden,plan_borrar
+	FROM plan_servidor where plan_name = 'plan1' and plan_borrar ='0' ;
+
+**cantidad de planes servidor
+
+/********************************** NIVEL USUARIO *************************************/
+**verificar si existe
+SELECT niv_id_niveluser, niv_nivel, niv_orden, niv_borrar FROM nivel_usuario 
+where (niv_id_niveluser = '-1' or niv_nivel = 'nivel2') and niv_borrar = '0'
+
+**todos
+SELECT niv_id_niveluser, niv_nivel, niv_orden,niv_borrar FROM nivel_usuario where niv_borrar='0'
+order by niv_orden desc;
+
+**insertar
+INSERT INTO nivel_usuario(
+	niv_nivel, niv_orden, niv_borrar)
+	VALUES ('nivel1', 5, 0);
+
+**eliminar
+UPDATE nivel_usuario
+	SET niv_borrar = '1'
+	WHERE niv_id_niveluser='9';
+
+**modificar
+UPDATE nivel_usuario
+	SET niv_nivel = 'sssssssss', niv_orden = '9'
+	WHERE niv_id_niveluser = '3';
+
+**Busqueda like
+SELECT niv_id_niveluser, niv_nivel, niv_orden, niv_borrar
+	FROM nivel_usuario where niv_borrar='0' and niv_nivel LIKE 'We%' limit 5
+
+
+**validar nivel usuario
+SELECT niv_id_niveluser, niv_nivel, niv_orden
+	FROM nivel_usuario where niv_nivel = 'Web' and niv_borrar='0';
+
+**cantidad de niveles de usuario
+
+/********************************** tarjeta  *************************************/
+
+**verificar si existe
+SELECT T.tar_id_tarjeta, T.tar_mac, T.tar_fecha_hora, T.tar_topic, 
+T.tar_pattern, T.mo_id_modulo, T.tar_borrar,
+M.mo_nombre_modulo, M.mo_tipo_dato, M.mo_proceso, M.mo_read_write
+FROM tarjeta T
+inner join modulo M
+on T.mo_id_modulo = M.mo_id_modulo 
+where T.tar_mac = 'tarjeta3' and tar_borrar = '0'
+order by M.mo_orden desc;
+
+**todos
+SELECT T.tar_id_tarjeta, T.tar_mac, T.tar_fecha_hora, T.tar_topic, 
+T.tar_pattern, T.mo_id_modulo, T.tar_borrar,
+M.mo_nombre_modulo, M.mo_tipo_dato, M.mo_proceso, M.mo_read_write
+FROM tarjeta T
+inner join modulo M
+on T.mo_id_modulo = M.mo_id_modulo 
+where tar_borrar = '0'
+order by M.mo_orden desc;
+
+**insertar
+INSERT INTO tarjeta(tar_mac, tar_fecha_hora, tar_topic, tar_pattern, mo_id_modulo, tar_borrar)
+	VALUES ('mac99', '26/04/2018', 'topicj', 'padre', '21', '0');
+
+**delete
+UPDATE tarjeta
+	SET tar_borrar='1'
+	where tar_id_tarjeta='4'
+
+**modificar
+UPDATE tarjeta
+SET tar_mac='maacccc', tar_fecha_hora='20/12/2019', tar_topic='topiiiccc', 
+tar_pattern='patternnn', mo_id_modulo='99'
+WHERE tar_id_tarjeta = '2';
+
+**Busqueda like
+
+SELECT T.tar_id_tarjeta, T.tar_mac, T.tar_fecha_hora, T.tar_topic, 
+T.tar_pattern, T.mo_id_modulo, T.tar_borrar,
+M.mo_nombre_modulo, M.mo_tipo_dato, M.mo_proceso, M.mo_read_write
+FROM tarjeta T
+inner join modulo M
+on T.mo_id_modulo = M.mo_id_modulo 
+where tar_borrar = '0' and tar_mac LIKE 'ma%'
+order by M.mo_orden desc limit 5;
+
+**validar tarjeta
+SELECT tar_id_tarjeta, tar_mac, tar_fecha_hora, tar_topic, tar_borrar, tar_pattern, mo_id_modulo
+	FROM tarjeta where tar_mac= 'tarjeta3' and tar_borrar='0'
+
+**cantidad de tarjetas
+
+/********************************** USUARIO *************************************/
+
+
+**Seleccionar todos los Usuarios
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.us_borrar, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where us_borrar = '0';
+
+
+**Seleccionar todos los tipos de usuario segun su nivel de usuario (id) (esto sirve para ver todos nuestros distribuidores, web o moviles)
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.us_borrar, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where U.niv_id_nivel_usuario = '7' and U.us_borrar='0' limit 5;
+
+
+**seleccionar todos los web del admin, distribuidor, seleccionar todos los moviles de cada web (segun su id_parent_usuario y su nivel de usuario)	
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.us_borrar, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where (U.us_id_parent_usuario = '11' and U.niv_id_nivel_usuario = '6') and us_borrar='0' limit 5;
+
+
+
+**like en busqueda general de (empresa o web, solo cambiar el where)
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.us_borrar, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where U.us_empresa LIKE 'Dis%' and U.us_borrar='0' limit 5
+
+
+**like de clientes moviles de la web por nombre
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.us_borrar, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where U.us_id_parent_usuario = '13' 
+and U.niv_id_nivel_usuario = '5' 
+and U.us_nombre LIKE 'Go%' 
+and U.us_borrar = '0'
+limit 5;
+
+
+
+**Insertar Administrador
+INSERT INTO usuario(
+	us_correo, us_empresa, us_telefono, us_pais, us_id_parent_usuario, 
+	us_latitud, us_longitud, us_direccion, us_nombre, us_apellidos, 
+	us_tipo_usuario, us_fecha_hora, us_password, niv_id_nivel_usuario, us_borrar)
+	VALUES ('guimoye@gmail.com', 'Super Admin', '967712478', 'Venezuela', 'null', '23,213', '24,123', 
+			'Lima', 'null', 'null', 'null', '24/04/2018', '12345678', '1', '0');
+
+NOTA: va nulo el us_id_parent_usuario, us_nombre, us_apellidos, us_tipo_usuario,
+
+
+
+**Insertar Distribuidor
+INSERT INTO usuario(
+	us_correo, us_empresa, us_telefono, us_pais, us_id_parent_usuario, 
+	us_latitud, us_longitud, us_direccion, us_nombre, us_apellidos, 
+	us_tipo_usuario, us_fecha_hora, us_password, niv_id_nivel_usuario, us_borrar)
+	VALUES ('guimoye@gmail.com', 'Distribuidor', '967712478', 'Venezuela', '10', '23,213', '24,123', 
+			'Lima', 'null', 'null', 'null', '24/04/2018', '12345678', '7', '0');
+
+NOTA: va nulo us_nombre, us_apellidos, us_tipo_usuario,
+
+
+
+**insertar cliente web 
+INSERT INTO usuario(
+	us_correo, us_empresa, us_telefono, us_pais, 
+	us_id_parent_usuario, us_latitud, us_longitud, us_direccion, 
+	us_nombre, us_apellidos, us_tipo_usuario, us_fecha_hora, 
+	us_password, niv_id_nivel_usuario, us_borrar)
+	VALUES ('web2@gmail.com', 'null', '123142', 'Venezuela', '11', '9,123', '8,123', 'surquillo', 
+			'Samuel', 'Tazzo', 'null', '24/04/2018', '1234', '6', '0');
+
+NOTA: en us_id_parent_usuario se coloca e id del padre bien sea el administrador o distribuidor
+
+
+
+**insertar cliente movil
+INSERT INTO usuario(
+	us_correo, us_empresa, us_telefono, us_pais, 
+	us_id_parent_usuario, us_latitud, us_longitud, us_direccion, 
+	us_nombre, us_apellidos, us_tipo_usuario, us_fecha_hora, 
+	us_password, niv_id_nivel_usuario, us_borrar)
+	VALUES ('movil2@gmail.com', 'null', 'null', 'null', '11', 'null', 'null', 'null', 
+			'Golillas2', 'Apellido2 Golillas', 'null', '25/04/2018', '1234', '5', '0');
+
+NOTA: en us_id_parent_usuario se coloca e id del padre bien sea el administrador o distribuidor
+
+
+
+**Modificar Distribuidor
+UPDATE usuario
+	SET us_correo='distribuidor@gmail.com', us_empresa='Distribuidor', us_telefono='967712456', us_pais='Chile', 
+	us_id_parent_usuario='11', us_latitud='3,456', us_longitud='5,123', 
+	us_direccion='Lima, Breña', us_nombre='null', us_apellidos='null', 
+	us_tipo_usuario='null', us_fecha_hora='24/04/2018', 
+	us_password='12345678', niv_id_nivel_usuario='7'
+	WHERE us_id_usuario = '10';
+
+
+
+**Modificar Administrador
+UPDATE usuario
+	SET us_correo='admin@gmail.com', us_empresa='Admin', us_telefono='967712456', us_pais='Chile', 
+	us_id_parent_usuario='null', us_latitud='3,456', us_longitud='5,123', 
+	us_direccion='Lima, Breña', us_nombre='null', us_apellidos='null', 
+	us_tipo_usuario='null', us_fecha_hora='24/04/2018', 
+	us_password='12345678', niv_id_nivel_usuario='1'
+	WHERE us_id_usuario = '11';
+
+
+
+**modificar usuario movil
+UPDATE usuario
+	SET us_correo='mov1_dis@gmail.com', us_id_parent_usuario=10, 
+	us_nombre='Maria Jose', us_apellidos='Zambrano Rodriguez', 
+	us_fecha_hora='30/04/2018', us_password='87654321', niv_id_nivel_usuario='5'
+	WHERE us_id_usuario = '20';
+
+
+
+**modificar usuario web
+UPDATE usuario
+	SET us_correo='web2_modificado@gmail.com', us_telefono='11111', 
+	us_pais='Ven', us_id_parent_usuario='11', us_latitud='99,123', us_longitud='19,123', 
+	us_direccion='los olivos', us_nombre='name1', us_apellidos='apellido2', 
+	us_fecha_hora='25/04/2018', us_password='212332', niv_id_nivel_usuario='6'
+	WHERE us_id_usuario = '14';
+
+
+
+**Eliminar Usuario
+UPDATE usuario
+	SET us_borrar='1'
+	WHERE us_id_usuario='21';
+
+
+**validar distribuidor por correo o empresa
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.us_borrar, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where (U.us_correo = 'distribuidor@gmail.com' or U.us_empresa = 'Distribidor') 
+and U.us_borrar = '0' limit 5;
+
+
+
+
+**validar correo, empresa del cliente_web
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.us_borrar, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where U.us_id_parent_usuario = '11' 
+and U.niv_id_nivel_usuario = '6' 
+and U.us_correo='web1@gmail.com' 
+and U.us_borrar = '0' 
+limit 5;
+
+
+
+**validar correo, empresa, cliente_movil
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where U.us_id_parent_usuario = '13' 
+and U.niv_id_nivel_usuario = '5' 
+and U.us_correo='movil1@gmail.com' 
+and  U.us_borrar = '0' 
+limit 5 ;
+
+
+
+
+**validar correo, empresa, 
+SELECT U.us_id_usuario, U.us_correo, U.us_empresa, U.us_telefono, 
+U.us_pais, U.us_id_parent_usuario, U.us_latitud, U.us_longitud, 
+U.us_direccion, U.us_nombre, U.us_apellidos, U.us_tipo_usuario, 
+U.us_fecha_hora, U.us_password, U.us_borrar, U.niv_id_nivel_usuario, N.niv_nivel
+FROM usuario U
+inner join nivel_usuario N 
+on U.niv_id_nivel_usuario = N.niv_id_niveluser
+where (U.us_empresa = 'Distribuidor' or U.us_correo = 'guimoyl.com') 
+and U.us_borrar='0'
+
+
+**cantidad de todos los usuarios
+agregar count(*) y quitar los items seleccionados
+
+
+
+
+/********************************** ZONA *************************************/
+
+**verificar si existe 
+SELECT Z.zo_id_zona, Z.zo_zona, Z.zo_orden, Z.us_id_usuario, Z.zo_borrar
+	FROM zona Z
+	inner join usuario U
+	on Z.us_id_usuario = U.us_id_usuario 
+	where Z.zo_borrar = '0' and Z.zo_zona = 'cuarto1' and U.us_id_usuario = '13';
+
+**ver todas las zonas del usuario
+SELECT Z.zo_id_zona, Z.zo_zona, Z.zo_orden, Z.us_id_usuario, Z.zo_borrar
+	FROM zona Z
+	inner join usuario U
+	on Z.us_id_usuario = U.us_id_usuario 
+	where Z.zo_borrar = '0' and U.us_id_usuario = '13'
+
+**insertar
+INSERT INTO zona(
+	zo_zona, zo_orden, us_id_usuario, zo_borrar)
+	VALUES (?, ?, ?, ?);
+
+**delete
+UPDATE zona set zo_borrar = '1' WHERE zo_id_zona = '3'
+
+**modificar
+UPDATE zona
+	SET zo_zona='cuarto2' WHERE zo_id_zona ='2'
+
+**Busqueda like
+SELECT Z.zo_id_zona, Z.zo_zona, Z.zo_orden, Z.us_id_usuario, Z.zo_borrar
+	FROM zona Z
+	inner join usuario U
+	on Z.us_id_usuario = U.us_id_usuario 
+	where Z.zo_borrar = '0' and U.us_id_usuario = '13' and Z.zo_zona LIKE 'cuarto%';
+
+**cantidad de zonas
+
+/********************************** ARTEFACTO *************************************/
+
+**verificar si existe 
+SELECT A.art_id_artefacto, A.art_artefacto, A.art_orden, 
+A.zo_id_zona, A.art_borrar, Z.zo_id_zona, Z.zo_zona, Z.us_id_usuario, U.us_nombre, U.us_apellidos
+	FROM artefacto A
+	inner join zona Z
+	on Z.zo_id_zona = A.zo_id_zona 
+	inner join usuario U
+	on Z.us_id_usuario = U.us_id_usuario 
+	where Z.us_id_usuario ='13' and A.art_borrar = '0' and Z.zo_id_zona = '1' and A.art_artefacto= 'foco1'
+	
+
+**ver todos los artefactos del usuario 
+SELECT A.art_id_artefacto, A.art_artefacto, A.art_orden, 
+A.zo_id_zona, A.art_borrar, Z.zo_id_zona, Z.zo_zona, Z.us_id_usuario, U.us_nombre, U.us_apellidos
+	FROM artefacto A
+	inner join zona Z
+	on Z.zo_id_zona = A.zo_id_zona 
+	inner join usuario U
+	on Z.us_id_usuario = U.us_id_usuario 
+	where Z.us_id_usuario ='13' and A.art_borrar = '0' 
+	order by A.art_artefacto asc
+
+**ver todos los artefactos del usuario segun la zona
+SELECT A.art_id_artefacto, A.art_artefacto, A.art_orden, 
+A.zo_id_zona, A.art_borrar, Z.zo_id_zona, Z.zo_zona, Z.us_id_usuario, U.us_nombre, U.us_apellidos
+	FROM artefacto A
+	inner join zona Z
+	on Z.zo_id_zona = A.zo_id_zona 
+	inner join usuario U
+	on Z.us_id_usuario = U.us_id_usuario 
+	where Z.us_id_usuario ='13' and A.art_borrar = '0' and Z.zo_id_zona = '1'
+	order by A.art_artefacto asc
+
+**insertar
+INSERT INTO artefacto(
+	art_artefacto, art_orden, zo_id_zona, art_borrar)
+	VALUES ('ventilador', 2, 4, 0);
+
+**delete
+UPDATE artefacto
+	SET art_borrar='1'
+	WHERE art_id_artefacto='8';
+
+**modificar
+UPDATE artefacto
+	SET art_artefacto='nose', zo_id_zona=22 
+	WHERE art_id_artefacto = '8';
+
+**Busqueda like
+SELECT A.art_id_artefacto, A.art_artefacto, A.art_orden, 
+A.zo_id_zona, A.art_borrar, Z.zo_id_zona, Z.zo_zona, Z.us_id_usuario, U.us_nombre, U.us_apellidos
+	FROM artefacto A
+	inner join zona Z
+	on Z.zo_id_zona = A.zo_id_zona 
+	inner join usuario U
+	on Z.us_id_usuario = U.us_id_usuario 
+	where Z.us_id_usuario ='13' and A.art_borrar = '0' and A.art_artefacto like 'foco1%'
+	order by A.art_artefacto asc
+
+**cantidad de zonas
+
+/********************************** CONTROL *************************************/
+
+**verificar si existe el artefacto por la mac
+SELECT C.con_id_control, C.con_fecha_hora, C.con_mac, C.con_estado, 
+C.art_id_artefacto, C.us_id_usuario, C.con_borrar, Z.zo_id_zona, C.mo_id_modulo, C.con_topic, 
+C.con_pattern,A.art_artefacto, Z.zo_zona, M.mo_nombre_modulo
+FROM control C 
+inner join artefacto A
+on C.art_id_artefacto = A.art_id_artefacto
+inner join zona Z
+on Z.zo_id_zona = A.zo_id_zona 
+inner join modulo M
+on M.mo_id_modulo = C.mo_id_modulo
+where C.con_borrar='0' and C.art_id_artefacto='1' and C.con_mac='M345345435S'
+
+**ver todas las tarjetas de la zona
+SELECT C.con_id_control, C.con_fecha_hora, C.con_mac, C.con_estado, 
+C.art_id_artefacto, C.us_id_usuario, C.con_borrar, Z.zo_id_zona, C.mo_id_modulo, C.con_topic, 
+C.con_pattern,A.art_artefacto, Z.zo_zona, M.mo_nombre_modulo
+FROM control C 
+inner join artefacto A
+on C.art_id_artefacto = A.art_id_artefacto
+inner join zona Z
+on Z.zo_id_zona = A.zo_id_zona 
+inner join modulo M
+on M.mo_id_modulo = C.mo_id_modulo
+where con_borrar='0';
+
+
+**insertar
+INSERT INTO control(
+	con_fecha_hora, con_mac, con_estado, art_id_artefacto, 
+	us_id_usuario, con_borrar, con_topic, con_pattern, mo_id_modulo)
+	VALUES ('26/04/2018', 'M345345sadas435S', 1, 5, 13, 0, 'topic', '/placa3/guimoye', 4);
+
+
+**delete
+UPDATE control
+	SET con_borrar='1'
+	WHERE con_id_control='5';
+
+**modificar
+UPDATE control
+	SET con_fecha_hora='25/4/2018', con_mac='mac123123', con_estado=1, 
+	art_id_artefacto=5, con_pattern='/placagolilla/jeje', mo_id_modulo=5
+	WHERE con_id_control= '8';
+
+**Busqueda like
+SELECT C.con_id_control, C.con_fecha_hora, C.con_mac, C.con_estado, 
+C.art_id_artefacto, C.us_id_usuario, C.con_borrar, Z.zo_id_zona, C.mo_id_modulo, C.con_topic, 
+C.con_pattern,A.art_artefacto, Z.zo_zona, M.mo_nombre_modulo
+FROM control C 
+inner join artefacto A
+on C.art_id_artefacto = A.art_id_artefacto
+inner join zona Z
+on Z.zo_id_zona = A.zo_id_zona 
+inner join modulo M
+on M.mo_id_modulo = C.mo_id_modulo
+where con_borrar='0' and A.art_artefacto Like 'foco1%';
+
+**cantidad de zonas
+
+
+/********************************** DATOS SERVIDOR *************************************/
+
+**verificar si existe 
+
+**ver todos los servidores
+SELECT 
+DS.ser_id_servidor, DS.ser_servidor, DS.ser_user, DS.ser_password, 
+DS.ser_port, DS.ser_ssl_port, DS.ser_wa_port, DS.ser_connection_limit, 
+DS.us_id_usuario, DS.data_id, DS.plan_id, DS.ser_name, DS.ser_borrar, 
+U.us_correo, P.plan_name, D.data_name 
+FROM datos_servidor DS 
+inner join usuario U
+on U.us_id_usuario = DS.us_id_usuario 
+inner join datacenter D
+on D.data_id = DS.data_id
+inner join plan_servidor P
+on P.plan_id = DS.plan_id
+where ser_borrar='0';
+
+**insertar
+INSERT INTO datos_servidor(
+	ser_servidor, ser_user, ser_password, ser_port, ser_ssl_port, 
+	ser_wa_port, ser_connection_limit, us_id_usuario, data_id, 
+	plan_id, ser_name, ser_borrar)
+	VALUES ('m12.cloudmqtt.com', 'scqovzmw', 'e22pZ5L70UWm', 
+			'17287', '27287', '37287', '10', 11, 3, 4, 'iot_proyecto', 0);
+
+**delete
+UPDATE datos_servidor
+	SET ser_borrar='1'
+	WHERE ser_id_servidor='2';
+
+**modificar
+
+**Busqueda like
+SELECT 
+DS.ser_id_servidor, DS.ser_servidor, DS.ser_user, DS.ser_password, 
+DS.ser_port, DS.ser_ssl_port, DS.ser_wa_port, DS.ser_connection_limit, 
+DS.us_id_usuario, DS.data_id, DS.plan_id, DS.ser_name, DS.ser_borrar, 
+U.us_correo, P.plan_name, D.data_name 
+FROM datos_servidor DS 
+inner join usuario U
+on U.us_id_usuario = DS.us_id_usuario 
+inner join datacenter D
+on D.data_id = DS.data_id
+inner join plan_servidor P
+on P.plan_id = DS.plan_id
+where DS.ser_borrar ='0' and (U.us_correo LIKE 'admin%' )
+
+**cantidad de zonas

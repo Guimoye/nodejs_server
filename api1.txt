@@ -1,0 +1,81 @@
+** scqovzmw
+** e22pZ5L70UWm
+
+
+
+/************************************************************************************************************************************/
+/*														   																			*/
+/*														  USUARIOS Y REGLAS															*/
+/*																																	*/
+/*																																	*/
+	
+/*************************** Listar todos los usuarios *******************************/
+ 
+https://api.cloudmqtt.com/api/user
+ESTO DEVUELVE Todos los usuarios
+
+$ curl -XGET -u "$CLOUDMQTT_USER:$CLOUDMQTT_PASSWORD" https://api.cloudmqtt.com/api/user
+#=> [{"username":"test","password":"$6$b1NBWGlJR1dEVEg5$8LzJAblro5HL7dj8ro7RLRKOD5X6BqlqvXZQb9kcuZkDbWHi0oACO1QF2OTLGFrUnXAqbtd538jf9fQZm+BtLw=="}]
+
+/*************************** Listar un usuario *******************************/
+
+Devuelve 404 si el usuario no existe:  
+https://api.cloudmqtt.com/api/user/:username
+ESTO DEVUELVE las reglas y artefactos a controlar, si no existe devuelve:
+{
+    "message": "Not found"
+}
+
+$ curl -XGET -u "$CLOUDMQTT_USER:$CLOUDMQTT_PASSWORD" https://api.cloudmqtt.com/api/user/:username
+#=> {"username":"test","password":"$6$b1NBWGlJR1dEVEg5$8LzJAblro5HL7dj8ro7RLRKOD5X6BqlqvXZQb9kcuZkDbWHi0oACO1QF2OTLGFrUnXAqbtd538jf9fQZm+BtLw==","acls":[{"topic":"sensor/%u","read":false,"write":true}]}
+
+/*************************** Crear un usuario *******************************/
+Create a new users, returns 409 if the user alread exists.
+
+https://api.cloudmqtt.com/api/user
+
+$ curl -XPOST -d '{"username":"test", "password":"super_secret_password"}' -H "Content-Type:application/json" -u "$CLOUDMQTT_USER:$CLOUDMQTT_PASSWORD" https://api.cloudmqtt.com/api/user
+
+/*************************** eliminar usuario *******************************/
+Delete a user, returns 404 if the user doesn't exists.
+
+https://api.cloudmqtt.com/api/user/:username
+esto devuelve cuando no existe
+{"message":"Not found"}
+
+$ curl -XDELETE -u "$CLOUDMQTT_USER:$CLOUDMQTT_PASSWORD" https://api.cloudmqtt.com/api/user/:username
+
+
+/*************************** modificar contraseña de usuario *******************************/
+
+https://api.cloudmqtt.com/api/user/:username
+
+$ curl -XPUT -d '{"password":"super_secret_password"}' -H "Content-Type:application/json" -u "$CLOUDMQTT_USER:$CLOUDMQTT_PASSWORD" https://api.cloudmqtt.com/api/user/:username
+
+
+
+/*************************** Listar todos los ACL rules o reglas. *******************************/
+
+https://api.cloudmqtt.com/api/acl
+
+$ curl -XGET -u "$CLOUDMQTT_USER:$CLOUDMQTT_PASSWORD" https://api.cloudmqtt.com/api/acl
+#=> [{"type":"topic","pattern":"test/users/topic","read":true,"write":true,"username":"custom-user"}, {"type":"pattern","pattern":"sensor/%u/data","read":true,"write":true,"username":null}]
+
+
+/*************************** Crear nuevo ACL rules o reglas. *******************************/
+Cree una nueva regla de ACL, devuelve 404 si no existe ningún usuario con el nombre de usuario y escriba es tema.
+
+https://api.cloudmqtt.com/api/acl
+
+$ curl -XPOST -d '{"type": "topic", "username":"test", "pattern": "readonly", "read": true, "write": false}' -H "Content-Type:application/json" -u "$CLOUDMQTT_USER:$CLOUDMQTT_PASSWORD" https://api.cloudmqtt.com/api/acl
+
+
+/*************************** Eliminar ACL. *******************************/
+
+Delete a ACL rule, returns 404 if no ACL exists.
+
+https://api.cloudmqtt.com/api/acl
+
+$ curl -XDELETE -d '{"username":"test", "topic":"readonly"}' -H "Content-Type:application/json" -u "$CLOUDMQTT_USER:$CLOUDMQTT_PASSWORD" https://api.cloudmqtt.com/api/acl
+
+

@@ -1,0 +1,52 @@
+
+Authentication
+For authentication, use your API key as username in a basic auth fashion, the password can be left out.
+ad057026-41d9-4822-ad79-43080e923a0a
+
+
+
+/************************************************************************************************************************************/
+/*														   																			*/
+/*														    SERVIDOR																*/
+/*																																	*/
+/*																																	*/
+
+
+/*************************** Listar Instancias *******************************/
+
+https://customer.cloudmqtt.com/api/instances
+Method GET}
+
+
+/*************************** Listar Instancias detallada *******************************/
+
+URL https://customer.cloudmqtt.com/api/instances/:id
+Method GET
+
+
+/*************************** Crear Instancia *******************************/
+
+URL https://customer.cloudmqtt.com/api/instances
+Method POST
+
+curl -u ad057026-41d9-4822-ad79-43080e923a0a: -d "name=test&plan=cat&region=amazon-web-services::us-east-1" https://customer.cloudmqtt.com/api/instances
+
+/*************************** Modificar Instancia *******************************/
+
+URL https://customer.cloudmqtt.com/api/instances/:id
+Method PUT
+
+/*************************** Eliminar Instancia *******************************/
+
+URL https://customer.cloudmqtt.com/api/instances/:id
+Method DELETE
+
+
+/*************************** Listar Team *******************************/
+
+https://customer.cloudmqtt.com/api/team
+
+URL https://customer.cloudmqtt.com/api/team
+Method GET
+
+curl -u ad057026-41d9-4822-ad79-43080e923a0a: https://customer.cloudmqtt.com/api/team
